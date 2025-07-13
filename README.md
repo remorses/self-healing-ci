@@ -30,7 +30,7 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
      build:
        runs-on: ubuntu-latest
        env:
-         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
        steps:
          - uses: actions/checkout@v4
@@ -38,5 +38,5 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
          - uses: remorses/self-healing-ci@v1
            with:
              anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-             commands: "npm ci && npm run build" # optional, override default
+             commands: "npm ci && npm run build"
    ```
