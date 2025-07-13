@@ -24,7 +24,6 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
    permissions:
      contents: write # push branch
      pull-requests: write # open PR
-     actions: read # download run logs
 
    jobs:
      build:
