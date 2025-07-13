@@ -23,7 +23,7 @@ inputs:
     description: |
       Comma‑separated list of Claude tools allowed.
       Keep minimal for safety; add Bash(gh *) if you want CLAUDE to run gh‑cli.
-    default: "Bash(git:*),View,Write"
+    default: "Bash(*)"
     required: false
 
   timeout_minutes:
