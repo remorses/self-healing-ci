@@ -66,7 +66,7 @@ runs:
           3. Otherwise, iterate up to **${{ inputs.max_attempts }} attempts**:
              • Diagnose & edit code.
              • `git add -A && git commit -m "fix(build): attempt $ATTEMPT"`.
-             • Re‑run `${{ inputs.command }}`.
+             • Re‑run `${{ inputs.command }}`. You can also run only part of the command if only that part is currently failing.
           4. After ${{ inputs.max_attempts }} failed attempts, `exit 1` so the job fails.
 
           **When the build passes**
