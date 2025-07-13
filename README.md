@@ -32,7 +32,7 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
        steps:
-         - uses: actions/checkout@v4
+         - uses: actions/checkout@main
 
          - uses: remorses/self-healing-ci@v1
            with:

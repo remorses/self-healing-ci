@@ -44,7 +44,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - id: self‑heal
+    - id: self_heal
       uses: anthropics/claude-code-base-action@beta
       env:
         GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }} # must be set by caller (usually ${{ secrets.GITHUB_TOKEN }})
