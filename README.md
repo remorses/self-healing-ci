@@ -38,5 +38,5 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
          - uses: remorses/self-healing-ci@v1
            with:
              anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-             commands: "npm ci && npm run build"
+             command: "npm ci && npm run build"
    ```
