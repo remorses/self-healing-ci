@@ -52,8 +52,7 @@ runs:
         anthropic_api_key: ${{ inputs.anthropic_api_key }}
         timeout_minutes: ${{ inputs.timeout_minutes }}
         max_turns: ${{ inputs.max_turns }}
-        allowed_tools: ${{ inputs.allowed_tools }}
-
+        allowed_tools: "Bash(*),Bash(${{ inputs.command }}),View,GlobTool,GrepTool,BatchTool"
         prompt: |
           You are our CI self‑healing agent.
 
@@ -62,7 +61,7 @@ runs:
              ```
              ${{ inputs.command }}
              ```
-          2. If the commands succeed, exit immediately with success—no commits, no PR.
+          2. If the commands succeed, exit immediately with success—no commits, no PR. If you are not able to run the command, fail the job, exit with code 1.
           3. Otherwise, iterate up to **${{ inputs.max_attempts }} attempts**:
              • Diagnose & edit code.
              • `git add -A && git commit -m "fix(build): attempt $ATTEMPT"`.
