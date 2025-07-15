@@ -1,4 +1,7 @@
+
 $schema: https://json.schemastore.org/github-action.json
+# https://github.com/sst/opencode/blob/dev/sdks/github/action.yml
+# example usage: https://github.com/sst/opencode/blob/dev/.github/workflows/opencode.yml
 name: "BuildMedic"
 description: |
   Run your build once and, if it fails, let Claude

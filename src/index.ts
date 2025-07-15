@@ -48,12 +48,11 @@ let state:
 
 async function run() {
   try {
-    const match = body.match(/^hey\s*opencode,?\s*(.*)$/);
-    if (!match?.[1]) throw new Error("Command must start with `hey opencode`");
-    const userPrompt = match[1];
+    appToken = process.env.GITHUB_TOKEN!;
+    if (!appToken) {
+      throw new Error("GITHUB_TOKEN environment variable is not set");
+    }
 
-    const oidcToken = await generateGitHubToken();
-    appToken = await exchangeForAppToken(oidcToken);
     octoRest = new Octokit({ auth: appToken });
     octoGraph = graphql.defaults({
       headers: { authorization: `token ${appToken}` },
@@ -62,7 +61,7 @@ async function run() {
     await configureGit(appToken);
     await assertPermissions();
 
-    const comment = await createComment("opencode started...");
+    const comment = await createComment("buildmedic started...");
     commentId = comment.data.id;
 
     // Set state
@@ -131,10 +130,8 @@ async function run() {
       await updateComment(response);
     }
     await restoreGitConfig();
-    await revokeAppToken();
   } catch (e: any) {
     await restoreGitConfig();
-    await revokeAppToken();
     console.error(e);
     let msg = e;
     if (e instanceof $.ShellError) {
@@ -156,7 +153,7 @@ if (import.meta.main) {
 
 async function generateGitHubToken() {
   try {
-    return await core.getIDToken("opencode-github-action");
+    return await core.getIDToken("buildmedic-github-action");
   } catch (error) {
     console.error("Failed to get OIDC token:", error);
     throw new Error(
@@ -200,8 +197,8 @@ async function configureGit(appToken: string) {
 
   await $`git config --local --unset-all ${config}`;
   await $`git config --local ${config} "AUTHORIZATION: basic ${newCredentials}"`;
-  await $`git config --global user.name "opencode-agent[bot]"`;
-  await $`git config --global user.email "opencode-agent[bot]@users.noreply.github.com"`;
+  await $`git config --global user.name "buildmedic[bot]"`;
+  await $`git config --global user.email "buildmedic[bot]@users.noreply.github.com"`;
 }
 
 async function checkoutLocalBranch(pr: GitHubPullRequest) {
