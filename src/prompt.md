@@ -4,7 +4,7 @@ You have to run a build command, inside Github Actions, and if the build fails, 
 
 Only try to fix easy issues, your changes should not consist more than 100 lines.
 
-If you can't fix the issue with a small number of updated lines, fail the job using `exit 1`.
+If you can't fix the issue with a small number of updated lines, fail the job using `buildmedic fail --message "Unable to fix the issue with minimal changes"`.
 
 **Workflow**
 
@@ -12,11 +12,11 @@ If you can't fix the issue with a small number of updated lines, fail the job us
   ```
   {{buildCommand}}
   ```
-- If the commands succeed, exit immediately with success—no commits, no PR. If you are not able to run the command, fail the job, exit with code 1.
+- If the commands succeed, exit immediately with success—no commits, no PR. If you are not able to run the command, fail the job using `buildmedic fail --message "Unable to run the build command"`.
 - Otherwise, iterate up to **{{maxAttempts}} attempts**:
   - Diagnose & edit code.
   - Re‑run `{{buildCommand}}`. You can also run only part of the command if only that part is currently failing.
-- After {{maxAttempts}} failed attempts, `exit 1` so the job fails.
+- After {{maxAttempts}} failed attempts, use `buildmedic fail --message "Failed to fix the build after {{maxAttempts}} attempts"` so the job fails.
 
 **When the build passes**
 
@@ -34,7 +34,7 @@ If you can't fix the issue with a small number of updated lines, fail the job us
 
 if you manage to fix the build command, ALWAYS call the buildmedic cli to submit the commits with your fixes
 
-if you did not manage to fix the build command, call `exit 1` to fail the job and DO NOT use the buildmedic cli.
+if you did not manage to fix the build command, call `buildmedic fail --message "reason for failure"` to fail the job and DO NOT use the buildmedic cli.
 
 ## rules
 

@@ -3,6 +3,7 @@
 import { cac } from 'cac'
 import { $ } from 'bun'
 import * as github from '@actions/github'
+import * as core from '@actions/core'
 import { execSync } from 'node:child_process'
 // @ts-ignore
 import parse from 'diffparser'
@@ -104,6 +105,15 @@ async function postReviewFromDirtyChanges(options?: { message?: string }): Promi
 
 const cli = cac('buildmedic')
 
+
+cli
+  .command('fail')
+  .option('--message <message>', 'Failure message')
+  .action(async (options) => {
+    const { message } = options
+    core.setFailed(`❌ ${message || 'Build failed'}`)
+    process.exit(0)
+  })
 
 cli
   .command('')
