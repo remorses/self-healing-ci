@@ -1,4 +1,9 @@
-# Self-Healing CI Project
+# Self-Healing CI: buildmedic
+
+This project uses bun to install packages.
+
+This is a github actions that uses opencode to fix issues in build scripts in ci.
+
 
 ## Overview
 This project implements a "self-healing" GitHub Action called **BuildMedic** that automatically fixes broken CI builds using AI. When a build fails, it attempts to diagnose and repair the code, then creates a pull request with the fix.
