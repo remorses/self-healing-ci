@@ -35,3 +35,13 @@ If you can't fix the issue with a small number of updated lines, fail the job us
 if you manage to fix the build command, ALWAYS call the buildmedic cli to submit the commits with your fixes
 
 if you did not manage to fix the build command, call `exit 1` to fail the job and DO NOT use the buildmedic cli.
+
+## rules
+
+- if the build fails because a command is not in PATH
+  - if this command is available on npm update the package.json dependencies, also add the package manager prefix if the command is not found because it is trying to use a globally installed binary, for example with `pnpm binaryname` or `yarn binaryname`
+  - if not on npm you should add a step in the current github action to install the command in PATH, you can usually do this using a github action, search the web to find if one is available, if not available you can search for the right install command instead.
+  - NEVER add the binary as a tracked file in the repo
+- if a command is failing because an environment variable is missing you should add this environment variable to the github actions job. assume a secret with the same name is available. tell in the PR message to add the build secret in github actions with a github callout `> [!IMPORTANT]`. DO NOT update the scripts or other commands to work around a missing env variable or secret.
+- if a binary is missing do not work around it by replacing the command used! instead find a way to make this binary available in the CI updating package.json or the actions workflows .yml
+- try to keep the diff changes as low as possible, DO NOT format files if doing so causes a big diff. if you see a large diff during `git status` caused by formatting, restore the file and redo the changes keeping the diff small.
