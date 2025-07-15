@@ -9,6 +9,7 @@
         "@octokit/graphql": "^9.0.1",
         "@octokit/rest": "^22.0.0",
         "cac": "^6.7.14",
+        "diffparser": "^2.0.1",
       },
       "devDependencies": {
         "@octokit/webhooks-types": "^7.6.1",
@@ -74,6 +75,8 @@
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "deprecation": ["deprecation@2.3.1", "", {}, "sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ=="],
+
+    "diffparser": ["diffparser@2.0.1", "", {}, "sha512-XBuCzzdLUBJzXTvbonNPv7+AhNkiUyhyiZBSrhKxKYcIXfAcPOVaINviC2vB+bfBa5EopW60CzkBjuwb3jdmiw=="],
 
     "fast-content-type-parse": ["fast-content-type-parse@3.0.0", "", {}, "sha512-ZvLdcY8P+N8mGQJahJV5G4U88CSvT1rP8ApL6uETe88MBXrBHAkZlSEySdUlyztF7ccb+Znos3TFqaepHxdhBg=="],
 
