@@ -1,13 +1,12 @@
 #!/usr/bin/env bun
 
-import { cac } from 'cac'
-import { $ } from 'bun'
 import * as github from '@actions/github'
-import * as core from '@actions/core'
+import { $ } from 'bun'
+import { cac } from 'cac'
 import { execSync } from 'node:child_process'
 // @ts-ignore
-import parse from 'diffparser'
 import { Octokit } from '@octokit/rest'
+import parse from 'diffparser'
 
 function isRunningForPR(): boolean {
   // Check if GITHUB_EVENT_NAME is 'pull_request' or 'pull_request_target'
@@ -111,7 +110,15 @@ cli
   .option('--message <message>', 'Failure message')
   .action(async (options) => {
     const { message } = options
-    core.setFailed(`❌ ${message || 'Build failed'}`)
+    // Fail if GITHUB_ACTION_PATH not available
+    if (!process.env.GITHUB_ACTION_PATH) {
+      console.error('❌ GITHUB_ACTION_PATH environment variable is not set. Cannot write status file.')
+      process.exit(1)
+    }
+    // Write status code file for the main process to read
+    const statusCodePath = `${process.env.GITHUB_ACTION_PATH}/STATUS_CODE`
+    await Bun.write(statusCodePath, '1')
+    console.error(`❌ ${message || 'Build failed'}`)
     process.exit(0)
   })
 

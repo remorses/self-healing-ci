@@ -52,6 +52,14 @@ async function run() {
 
     await restoreGitConfig();
 
+    // Check if buildmedic fail was called and exit with appropriate code
+    const statusCodePath = `${process.env.GITHUB_ACTION_PATH}/STATUS_CODE`;
+    const statusCodeFile = Bun.file(statusCodePath);
+    if (await statusCodeFile.exists()) {
+      const statusCode = await statusCodeFile.text();
+      process.exit(parseInt(statusCode.trim()) || 0);
+    }
+
   } catch (e: any) {
     await restoreGitConfig();
     console.error(e);
