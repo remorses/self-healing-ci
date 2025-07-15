@@ -141,6 +141,7 @@ If you can't fix the issue with a small number of updated lines, fail the job us
 if you manage to fix the build command, ALWAYS call the buildmedic cli to submit the commits with your fixes
 
 if you did not manage to fix the build command, call \`exit 1\` to fail the job and DO NOT use the buildmedic cli.
+`
 }
 
 
