@@ -49,6 +49,7 @@ This project implements a "self-healing" GitHub Action called **BuildMedic** tha
 ## Configuration
 - `command`: The build/test command to run (required)
 - `max_attempts`: Maximum number of fix attempts (default: 3)
+- `model`: AI model to use for BuildMedic (default: claude-3-5-sonnet-20241022)
 - Uses GitHub token for authentication and PR creation permissions
 
 ## Usage Example
@@ -56,6 +57,7 @@ This project implements a "self-healing" GitHub Action called **BuildMedic** tha
 - uses: remorses/buildmedic@main
   with:
     command: "npm ci && npm run build"
+    model: "claude-3-5-sonnet-20241022"  # optional
 ```
 
 ## Technology Stack

@@ -33,4 +33,5 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
          - uses: remorses/buildmedic@main
            with:
              command: "npm ci && npm run build"
+             model: "claude-3-5-sonnet-20241022"  # optional, defaults to claude-3-5-sonnet-20241022
    ```

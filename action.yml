@@ -21,6 +21,10 @@ inputs:
     description: "Maximum number of attempts to fix the build"
     required: false
     default: "3"
+  model:
+    description: "Model to use for BuildMedic (e.g., anthropic/claude-sonnet-4-20250514)"
+    required: false
+
 
 runs:
   using: "composite"
@@ -60,3 +64,4 @@ runs:
       env:
         INPUT_COMMAND: ${{ inputs.command }}
         INPUT_MAX_ATTEMPTS: ${{ inputs.max_attempts }}
+        INPUT_MODEL: ${{ inputs.model }}
