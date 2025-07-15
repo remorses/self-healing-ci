@@ -47,7 +47,7 @@ async function run() {
     await $`git checkout -b ${branch}`;
 
     // Let opencode handle everything - command execution, retries, and fixes
-    const prompt = buildSelfHealingPrompt(buildCommand, maxAttempts);
+    const prompt = buildSelfHealingPrompt({buildCommand, maxAttempts});
     const response = await runOpencode(prompt, { share: false });
 
     await restoreGitConfig();
@@ -103,19 +103,20 @@ async function exchangeForAppToken(oidcToken: string) {
   return responseJson.token;
 }
 
-function buildSelfHealingPrompt(command: string, maxAttempts: number): string {
+function buildSelfHealingPrompt(opts: { buildCommand: string; maxAttempts: number }): string {
+  const { buildCommand, maxAttempts } = opts;
   return `You are our CI self‑healing agent.
 
 **Workflow**
 1. Run the build once, run this command as your first action, exactly as follows:
    \`\`\`
-   ${command}
+   ${buildCommand}
    \`\`\`
 2. If the commands succeed, exit immediately with success—no commits, no PR. If you are not able to run the command, fail the job, exit with code 1.
 3. Otherwise, iterate up to **${maxAttempts} attempts**:
    • Diagnose & edit code.
    • \`git add -A && git commit -m "fix(build): attempt $ATTEMPT"\`.
-   • Re‑run \`${command}\`. You can also run only part of the command if only that part is currently failing.
+   • Re‑run \`${buildCommand}\`. You can also run only part of the command if only that part is currently failing.
 4. After ${maxAttempts} failed attempts, \`exit 1\` so the job fails.
 
 **When the build passes**

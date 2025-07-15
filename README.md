@@ -8,16 +8,10 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
 
 ## Quick start
 
-1. **Add required secrets**
-
-   | Secret              | Purpose                                                |
-   | ------------------- | ------------------------------------------------------ |
-   | `ANTHROPIC_API_KEY` | Your BuildMedic API key (or Bedrock / Vertex credentials). |
-
-2. **Give the default `GITHUB_TOKEN` PR rights**
+1. **Give the default `GITHUB_TOKEN` PR rights**
    _Repo → Settings → Actions → General → “Allow GitHub Actions to create and approve pull requests”._
 
-3. **Drop the job in any repo**
+2. **Drop the job in any repo**
 
    ```yaml
    # .github/workflows/ci.yml
@@ -36,8 +30,7 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
        steps:
          - uses: actions/checkout@main
 
-         - uses: remorses/self-healing-ci@main
+         - uses: remorses/buildmedic@main
            with:
-             anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
              command: "npm ci && npm run build"
    ```
