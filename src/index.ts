@@ -104,7 +104,15 @@ async function exchangeForAppToken(oidcToken: string) {
 
 function buildSelfHealingPrompt(opts: { buildCommand: string; maxAttempts: number }): string {
   const { buildCommand, maxAttempts } = opts;
-  return `You are our CI self‑healing agent.
+  return `
+
+You are our CI self‑healing agent, called buildmedic.
+
+You have to run a build command, inside Github Actions, and if the build fails, try to fix it.
+
+Only try to fix easy issues, your changes should not consist more than 100 lines.
+
+If you can't fix the issue with a small number of updated lines, fail the job using \`exit 1\`.
 
 **Workflow**
 - Run the build once, run this command as your first action, exactly as follows:
@@ -114,7 +122,6 @@ function buildSelfHealingPrompt(opts: { buildCommand: string; maxAttempts: numbe
 - If the commands succeed, exit immediately with success—no commits, no PR. If you are not able to run the command, fail the job, exit with code 1.
 - Otherwise, iterate up to **${maxAttempts} attempts**:
   - Diagnose & edit code.
-  - \`git add -A && git commit -m "fix(build): attempt $ATTEMPT"\`.
   - Re‑run \`${buildCommand}\`. You can also run only part of the command if only that part is currently failing.
 - After ${maxAttempts} failed attempts, \`exit 1\` so the job fails.
 
