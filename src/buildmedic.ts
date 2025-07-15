@@ -4,6 +4,7 @@ import { cac } from 'cac'
 import { $ } from 'bun'
 import * as github from '@actions/github'
 import { execSync } from 'node:child_process'
+// @ts-ignore
 import parse from 'diffparser'
 import { Octokit } from '@octokit/rest'
 
