@@ -26,12 +26,11 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
        runs-on: ubuntu-latest
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
        steps:
          - uses: actions/checkout@main
-
-         - uses: remorses/buildmedic@main
+         - uses: remorses/buildmedic@opencode
+           env:
+             ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
            with:
              run: "npm ci && npm run build"
-             model: "claude-3-5-sonnet-20241022"  # optional, defaults to claude-3-5-sonnet-20241022
    ```
