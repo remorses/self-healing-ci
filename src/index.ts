@@ -9,22 +9,20 @@ import path from "path";
 
 const { owner, repo } = github.context.repo;
 const actor = github.context.actor;
-const command = process.env.INPUT_COMMAND;
+const buildCommand = process.env.INPUT_COMMAND as string;
 const maxAttempts = parseInt(process.env.INPUT_MAX_ATTEMPTS || "3");
 const model = process.env.INPUT_MODEL || "anthropic/claude-sonnet-4-20250514";
 
-if (!command) {
+if (!buildCommand) {
   core.setFailed("INPUT_COMMAND is required");
   process.exit(1);
 }
 
-// Type assertion since we've already checked that command is not null/undefined
-const buildCommand: string = command;
+
 
 let appToken: string;
 let octoRest: Octokit;
 let gitCredentials: string;
-let hadFailures = false;
 
 async function run() {
   try {
