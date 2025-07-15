@@ -12,7 +12,7 @@ _A reusable GitHub Action that lets [Anthropic Claude](https://www.anthropic.c
 
    | Secret              | Purpose                                                |
    | ------------------- | ------------------------------------------------------ |
-   | `ANTHROPIC_API_KEY` | Your Claude API key (or Bedrock / Vertex credentials). |
+   | `ANTHROPIC_API_KEY` | Your BuildMedic API key (or Bedrock / Vertex credentials). |
 
 2. **Give the default `GITHUB_TOKEN` PR rights**
    _Repo → Settings → Actions → General → “Allow GitHub Actions to create and approve pull requests”._

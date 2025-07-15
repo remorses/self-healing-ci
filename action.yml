@@ -4,7 +4,7 @@ $schema: https://json.schemastore.org/github-action.json
 # example usage: https://github.com/sst/opencode/blob/dev/.github/workflows/opencode.yml
 name: "BuildMedic"
 description: |
-  Run your build once and, if it fails, let Claude
+  Run your build once and, if it fails, let BuildMedic
   patch the code in‑place, retry (up to max_attempts),
   and open a pull‑request with the fix.
 
@@ -16,6 +16,11 @@ branding:
 inputs:
   command:
     description: "Shell commands that must succeed (run as one string)"
+    required: true
+  max_attempts:
+    description: "Maximum number of attempts to fix the build"
+    required: false
+    default: "3"
 
 runs:
   using: "composite"
@@ -40,11 +45,18 @@ runs:
       shell: bash
       run: curl -fsSL https://opencode.ai/install | bash
 
+    - name: Install buildmedic script
+      shell: bash
+      run: |
+        cd ${GITHUB_ACTION_PATH}
+        chmod +x src/buildmedic.ts
+        ln -sf ${GITHUB_ACTION_PATH}/src/buildmedic.ts /usr/local/bin/buildmedic
+
     - name: Run BuildMedic
       shell: bash
       id: run_buildmedic
       run: |
         bun run ${GITHUB_ACTION_PATH}/src/index.ts
-      # env:
-      #   INPUT_MODEL: ${{ inputs.model }}
-      #   INPUT_SHARE: ${{ inputs.share }}
+      env:
+        INPUT_COMMAND: ${{ inputs.command }}
+        INPUT_MAX_ATTEMPTS: ${{ inputs.max_attempts }}
