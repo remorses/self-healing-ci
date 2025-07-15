@@ -10,12 +10,12 @@ import Handlebars from "handlebars";
 
 const { owner, repo } = github.context.repo;
 const actor = github.context.actor;
-const buildCommand = process.env.INPUT_COMMAND as string;
+const buildCommand = process.env.INPUT_RUN as string;
 const maxAttempts = parseInt(process.env.INPUT_MAX_ATTEMPTS || "3");
 const model = process.env.INPUT_MODEL || "anthropic/claude-sonnet-4-20250514";
 
 if (!buildCommand) {
-  core.setFailed("INPUT_COMMAND is required");
+  core.setFailed("INPUT_RUN is required");
   process.exit(1);
 }
 

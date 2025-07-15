@@ -14,7 +14,7 @@ branding:
   color: purple
 
 inputs:
-  command:
+  run:
     description: "Shell commands that must succeed (run as one string)"
     required: true
   max_attempts:
@@ -62,6 +62,6 @@ runs:
       run: |
         bun run ${GITHUB_ACTION_PATH}/src/index.ts
       env:
-        INPUT_COMMAND: ${{ inputs.command }}
+        INPUT_RUN: ${{ inputs.run }}
         INPUT_MAX_ATTEMPTS: ${{ inputs.max_attempts }}
         INPUT_MODEL: ${{ inputs.model }}
