@@ -105,22 +105,6 @@ async function postReviewFromDirtyChanges(options?: { message?: string }): Promi
 const cli = cac('buildmedic')
 
 
-cli
-  .command('fail')
-  .option('--message <message>', 'Failure message')
-  .action(async (options) => {
-    const { message } = options
-    // Fail if GITHUB_ACTION_PATH not available
-    if (!process.env.GITHUB_ACTION_PATH) {
-      console.error('❌ GITHUB_ACTION_PATH environment variable is not set. Cannot write status file.')
-      process.exit(1)
-    }
-    // Write status code file for the main process to read
-    const statusCodePath = `${process.env.GITHUB_ACTION_PATH}/STATUS_CODE`
-    await Bun.write(statusCodePath, '1')
-    console.error(`❌ ${message || 'Build failed'}`)
-    process.exit(0)
-  })
 
 cli
   .command('')
