@@ -157,8 +157,27 @@ cli
 
         console.log('Pull request created successfully!')
       } catch (error) {
-        console.error('Failed to create pull request:', error)
-        process.exit(1)
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        
+        // Check if the error is due to no changes between branches
+        if (errorMessage.includes('no commits between') || 
+            errorMessage.includes('No commits between') ||
+            errorMessage.includes('nothing to compare') ||
+            errorMessage.includes('identical')) {
+          
+          console.log('No changes detected between branches, creating issue instead...')
+          
+          try {
+            await $`gh issue create --title ${title} --body ${message}`
+            console.log('Issue created successfully!')
+          } catch (issueError) {
+            console.error('Failed to create issue:', issueError)
+            process.exit(1)
+          }
+        } else {
+          console.error('Failed to create pull request:', error)
+          process.exit(1)
+        }
       }
     }
   })

@@ -49,6 +49,7 @@ if you did not manage to fix the build command, call `buildmedic fail --message 
 
 ## rules
 
+- **IMPORTANT: Workflow file permissions** - You CANNOT directly update files inside `.github/workflows/` due to special permissions requirements. If you need to update workflow files, use the buildmedic CLI to create a PR (even an empty one is ok) with the diff in markdown format using a code snippet with diff format via `--message`. This allows the user to apply the update themselves.
 - if the build fails because a command is not in PATH
   - if this command is available on npm update the package.json dependencies, also add the package manager prefix if the command is not found because it is trying to use a globally installed binary, for example with `pnpm binaryname` or `yarn binaryname`
   - if not on npm you should add a step in the current github action to install the command in PATH, you can usually do this using a github action, search the web to find if one is available, if not available you can search for the right install command instead.
