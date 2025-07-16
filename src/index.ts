@@ -46,9 +46,40 @@ async function run() {
     console.log(`Creating branch: ${branch}`);
     await $`git checkout -b ${branch}`;
 
-    // Let opencode handle everything - command execution, retries, and fixes
-    const prompt = await buildSelfHealingPrompt({buildCommand, maxAttempts});
-    const response = await runOpencode(prompt, { share: false });
+    // First, run the command without OpenCode to capture any errors
+    console.log("Running build command first to check for failures...");
+    let commandFailed = false;
+    let combinedOutput = "";
+
+    try {
+      // Run command with stdout and stderr interleaved (2>&1)
+      const result = await $`bash -c ${buildCommand} 2>&1`;
+      combinedOutput = result.text();
+      console.log("Build command succeeded on first run. No fixes needed.");
+      await restoreGitConfig();
+      process.exit(0);
+    } catch (e: any) {
+      commandFailed = true;
+      if (e instanceof $.ShellError) {
+        // When using 2>&1, all output goes to stdout
+        combinedOutput = e.text();
+      }
+      console.log("Build command failed. Collecting error details for self-healing...");
+    }
+
+    // If command failed, pass the error details to OpenCode
+    if (commandFailed) {
+      // Get the last 1000 lines of combined output
+      const outputLines = combinedOutput.split('\n');
+      const last1000Lines = outputLines.slice(-1000).join('\n');
+
+      const prompt = await buildSelfHealingPrompt({
+        buildCommand,
+        maxAttempts,
+        initialError: last1000Lines
+      });
+      const response = await runOpencode(prompt, { share: false });
+    }
 
     await restoreGitConfig();
 
@@ -111,20 +142,21 @@ async function exchangeForAppToken(oidcToken: string) {
   return responseJson.token;
 }
 
-async function buildSelfHealingPrompt(opts: { buildCommand: string; maxAttempts: number }): Promise<string> {
-  const { buildCommand, maxAttempts } = opts;
-  
+async function buildSelfHealingPrompt(opts: { buildCommand: string; maxAttempts: number; initialError?: string }): Promise<string> {
+  const { buildCommand, maxAttempts, initialError } = opts;
+
   // Read the prompt template from file
   const promptPath = path.join(__dirname, "prompt.md");
   const promptTemplate = await Bun.file(promptPath).text();
-  
+
   // Compile the template with Handlebars
   const template = Handlebars.compile(promptTemplate);
-  
+
   // Render the template with the provided variables
   return template({
     buildCommand,
-    maxAttempts
+    maxAttempts,
+    initialError
   });
 }
 

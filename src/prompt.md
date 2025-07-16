@@ -6,15 +6,24 @@ Only try to fix easy issues, your changes should not consist more than 100 lines
 
 If you can't fix the issue with a small number of updated lines, fail the job using `buildmedic fail --message "Unable to fix the issue with minimal changes"`.
 
+**Initial Error Information**
+
+The build command has already been run once and failed. Here is the error output:
+
+```
+{{initialError}}
+```
+
 **Workflow**
 
-- Run the build once, run this command as your first action, exactly as follows:
+- Analyze the error output above and try to fix the issue.
+- Then run the build command again to check if your fix worked:
   ```
   {{buildCommand}}
   ```
-- If the commands succeed, exit immediately with success—no commits, no PR. If you are not able to run the command, fail the job using `buildmedic fail --message "Unable to run the build command"`.
+- If the commands succeed after your fix, continue with creating a PR as described below.
 - Otherwise, iterate up to **{{maxAttempts}} attempts**:
-  - Diagnose & edit code.
+  - Diagnose & edit code based on the new error output.
   - Re‑run `{{buildCommand}}`. You can also run only part of the command if only that part is currently failing.
 - After {{maxAttempts}} failed attempts, use `buildmedic fail --message "Failed to fix the build after {{maxAttempts}} attempts"` so the job fails.
 
