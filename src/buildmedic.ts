@@ -4,8 +4,8 @@ import * as github from '@actions/github'
 import { $ } from 'bun'
 import { cac } from 'cac'
 import { execSync } from 'node:child_process'
-// @ts-ignore
 import { Octokit } from '@octokit/rest'
+// @ts-ignore
 import parse from 'diffparser'
 
 function isRunningForPR(): boolean {
