@@ -50,8 +50,8 @@ if you manage to fix the build command, ALWAYS call the buildmedic cli to submit
 ## how to fix build issues
 
 - **IMPORTANT: Workflow file permissions** - You CANNOT directly update files inside `.github/workflows/` due to special permissions requirements. NEVER add, edit, or commit workflow files. If you need to update workflow files, use the buildmedic CLI to create a PR (even an empty one is ok) with the diff in markdown format using a code snippet with diff format via `--message`. This allows the user to apply the update themselves.
-- if the build fails because a command is not in PATH
-  - if this command is available on npm update the package.json dependencies, also add the package manager prefix if the command is not found because it is trying to use a globally installed binary, for example with `pnpm binaryname` or `yarn binaryname`
+- if the build fails because a command is not in PATH or the command is missing
+  - if this command is available on npm install it with the project package manager, also add the package manager prefix if the command is not found because it is trying to use a globally installed binary, for example with `pnpm binaryname` or `yarn binaryname`
   - if not on npm you should add a step in the current github action to install the command in PATH, you can usually do this using a github action, search the web to find if one is available, if not available you can search for the right install command instead.
   - NEVER add the binary as a tracked file in the repo
 - if a command is failing because an environment variable is missing you should add this environment variable to the github actions job. assume a secret with the same name is available. tell in the PR message to add the build secret in github actions with a github callout `> [!IMPORTANT]`. DO NOT update the scripts or other commands to work around a missing env variable or secret.
