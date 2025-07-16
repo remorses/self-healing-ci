@@ -58,3 +58,4 @@ if you manage to fix the build command, ALWAYS call the buildmedic cli to submit
 - if a binary is missing do not work around it by replacing the command used! instead find a way to make this binary available in the CI updating package.json or the actions workflows .yml
 - try to keep the diff changes as low as possible, DO NOT format files if doing so causes a big diff. if you see a large diff during `git status` caused by formatting, restore the file and redo the changes keeping the diff small.
 - if tests fail because of updated snapshots you should rerun the tests with snapshots updates enabled, for example vitest has a `-u` option to do so
+- use the web search tool to understand how to fix errors that are not obvious and happen during build. Most errors are caused by the environment of the github action being different than the one of the user usually. For example Vite and vite.config.ts sometimes can fail if the Node version is lower than Node 24.
