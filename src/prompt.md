@@ -47,7 +47,7 @@ if you manage to fix the build command, ALWAYS call the buildmedic cli to submit
 
 
 
-## rules
+## how to fix build issues
 
 - **IMPORTANT: Workflow file permissions** - You CANNOT directly update files inside `.github/workflows/` due to special permissions requirements. NEVER add, edit, or commit workflow files. If you need to update workflow files, use the buildmedic CLI to create a PR (even an empty one is ok) with the diff in markdown format using a code snippet with diff format via `--message`. This allows the user to apply the update themselves.
 - if the build fails because a command is not in PATH
@@ -61,3 +61,10 @@ if you manage to fix the build command, ALWAYS call the buildmedic cli to submit
 - use the web search tool to understand how to fix errors that are not obvious and happen during build. Most errors are caused by the environment of the github action being different than the one of the user usually. For example Vite and vite.config.ts sometimes can fail if the Node version is lower than Node 24.
 - many build issues are sometimes caused by a missing script that needs to be called before starting the build. for example the repo could need to run `prisma generate` before starting to build the website code. Or sometimes the build needs to first run a generation script before building the website. To fix these issues, add the missing commands to run in the build script.
 - if a build error happens because the runtime runner (for example `node`, `ts-node` or `tsx`) does not support the features used in the script, update the runner to one that supports those features instead of trying to update a lot of code to be compatible with the runner. For example if the code relies on vite `import.meta.glob` or `?raw` imports, use `vite-node` instead of plain `node` or `ts-node`
+
+## how to write the PR body (buildmedic --message param)
+
+- Keep the body short and concise. try to use code snippets to explain yourself instead of long paragraphs
+- Do not paste the full logs of the build command here, keep it short
+- If you want to suggest changes to a .github/workflows file use a diff language snippet
+- you github flavoured callouts like `> [!IMPORTANT]` to add important information
